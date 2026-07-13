@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     actionBtn.addEventListener("click", () => {
         if (wrapper.classList.contains("paso-1")) {
             if (music) {
-                music.currentTime = 0; // Reinicia la canción desde el principio solo la primera vez
+                music.currentTime = 0; // Reinicia la canción desde el principio solo al abrir
                 music.play().catch(error => console.log("El navegador bloqueó el audio:", error));
             }
 
@@ -37,13 +37,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // LÓGICA MODIFICADA: Regresar al Paso 2 (Centro) sin apagar la música
+    // LÓGICA REFORZADA: Regresar al Paso 2 (Centro) manteniendo la música
     if (resetBtn) {
-        resetBtn.addEventListener("click", () => {
-            wrapper.className = "wrapper paso-2"; // Te devuelve al estado del libro abierto
-            actionBtn.textContent = "Ver detalles e información"; // El botón grande recupera su texto del paso 2
+        resetBtn.addEventListener("click", (e) => {
+            e.preventDefault(); // Evita conflictos en el evento del clic
             
-            // Forzamos que las portadas iniciales sigan ocultas si se regresa en caliente
+            wrapper.className = "wrapper paso-2"; // Cambia el estado al paso 2
+            actionBtn.textContent = "Ver detalles e información"; // Devuelve el texto correspondiente al botón verde
+            
+            // Forzamos que las puertas frontales permanezcan ocultas al volver atrás
             if (doors) doors.style.display = "none"; 
         });
     }
