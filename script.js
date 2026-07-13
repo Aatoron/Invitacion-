@@ -37,12 +37,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // REGRESAR AL PASO 2 NATURALMENTE
+    // REGRESAR AL PASO 2 TOTALMENTE LIMPIO
     if (resetBtn) {
         resetBtn.addEventListener("click", (e) => {
             e.preventDefault();
             
-            // Cambiamos el estado al paso 2 directamente de forma limpia
+            // Forzamos al wrapper a cambiar al paso 2 eliminando cualquier rastro del paso 4
             wrapper.className = "wrapper paso-2"; 
             actionBtn.textContent = "Ver detalles e información";
             
