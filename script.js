@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     actionBtn.addEventListener("click", () => {
         if (wrapper.classList.contains("paso-1")) {
             if (music) {
-                music.currentTime = 0; // Reinicia la canción desde el principio solo al abrir
+                music.currentTime = 0;
                 music.play().catch(error => console.log("El navegador bloqueó el audio:", error));
             }
 
@@ -37,16 +37,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // LÓGICA REFORZADA: Regresar al Paso 2 (Centro) manteniendo la música
+    // REGRESAR A CENTRO_2 AL INSTANTE
     if (resetBtn) {
         resetBtn.addEventListener("click", (e) => {
-            e.preventDefault(); // Evita conflictos en el evento del clic
+            e.preventDefault();
             
-            wrapper.className = "wrapper paso-2"; // Cambia el estado al paso 2
-            actionBtn.textContent = "Ver detalles e información"; // Devuelve el texto correspondiente al botón verde
+            // Activamos una clase temporal para saltarnos la animación de las portadas/cortinas
+            wrapper.classList.add("sin-animacion");
             
-            // Forzamos que las puertas frontales permanezcan ocultas al volver atrás
+            // Cambiamos al paso 2 directo
+            wrapper.className = "wrapper paso-2 sin-animacion"; 
+            actionBtn.textContent = "Ver detalles e información";
+            
             if (doors) doors.style.display = "none"; 
+
+            // Quitamos la clase temporal un milisegundo después para que el resto de la web funcione normal
+            setTimeout(() => {
+                wrapper.classList.remove("sin-animacion");
+            }, 50);
         });
     }
 });

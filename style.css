@@ -98,7 +98,7 @@ img {
    ========================================= */
 .closure-view { 
     display: flex; 
-    z-index: 20; /* Capa por encima del contenido interno pero por debajo del botón de reseteo */
+    z-index: 20; 
 }
 
 .curtain {
@@ -116,24 +116,20 @@ img {
    CONTROL DE ESTADOS
    ========================================= */
 
-/* PASO 1: Bloqueo de seguridad para que centro_2 no se filtre de fondo */
 .paso-1 .center-view {
     opacity: 0 !important;
     visibility: hidden !important;
 }
 
-/* PASO 2: Se ejecuta el efecto libro */
 .paso-2 .left-door { transform: translateX(-100%) rotateY(-120deg); opacity: 0; }
 .paso-2 .right-door { transform: translateX(100%) rotateY(120deg); opacity: 0; }
 .paso-2 .center-view { opacity: 1 !important; visibility: visible !important; }
 .paso-2 .door-layer { pointer-events: none; } 
 
-/* PASO 3: Tránsito al mapa y QR */
 .paso-3 .center-view { opacity: 0; visibility: hidden; }
 .paso-3 .final-view { opacity: 1; visibility: visible; }
 .paso-3 .door-layer { display: none !important; } 
 
-/* PASO 4: Cierre de cortinas */
 .paso-4 .final-view { opacity: 0; visibility: hidden; }
 .paso-4 .closure-view { 
     opacity: 1; 
@@ -179,7 +175,6 @@ img {
 }
 .main-button:hover { background-color: #486143; }
 
-/* Ocultar botón verde en las cortinas del Paso 4 */
 .paso-4 .main-button {
     opacity: 0;
     visibility: hidden;
@@ -187,7 +182,6 @@ img {
     pointer-events: none;
 }
 
-/* Forzar que reaparezca correctamente al volver al Paso 2 */
 .paso-2 .main-button {
     opacity: 1 !important;
     visibility: visible !important;
@@ -209,11 +203,9 @@ img {
     font-size: 0.85rem;
     font-weight: 500;
     cursor: pointer;
-    /* Un Z-INDEX altísimo (300) para que se posicione sobre cualquier cortina o capa */
     z-index: 300 !important; 
     transition: all 0.4s ease;
     
-    /* Oculto por defecto en pasos 1, 2 y 3 */
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -223,10 +215,15 @@ img {
     background-color: rgba(94, 124, 88, 0.1);
 }
 
-/* Se activa únicamente en el Paso 4 */
 .paso-4 .secondary-button {
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto !important;
     transform: translateY(0) !important;
+}
+
+/* TRUCO EXTRA: Elimina las transiciones al regresar para que aparezca centro_2 de golpe */
+.sin-animacion .curtain,
+.sin-animacion .content-view {
+    transition: none !important;
 }
