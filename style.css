@@ -215,11 +215,21 @@ img {
     background-color: rgba(94, 124, 88, 0.1);
 }
 
+/* Se activa únicamente en el Paso 4 */
 .paso-4 .secondary-button {
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto !important;
     transform: translateY(0) !important;
+}
+
+/* PARCHE PARA MÓVILES: Fuerza a ocultar el botón secundario en el resto de los pasos */
+.paso-2 .secondary-button,
+.paso-1 .secondary-button,
+.paso-3 .secondary-button {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
 }
 
 /* TRUCO EXTRA: Elimina las transiciones al regresar para que aparezca centro_2 de golpe */
