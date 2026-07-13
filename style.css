@@ -174,9 +174,18 @@ img {
 }
 .main-button:hover { background-color: #486143; }
 
+/* Ocultar en el Paso 4 */
 .paso-4 .main-button {
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
     pointer-events: none;
+}
+
+/* NUEVO PARCHE: Forzar que se vuelva a ver al regresar al Paso 2 */
+.paso-2 .main-button {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+    pointer-events: auto !important;
 }
