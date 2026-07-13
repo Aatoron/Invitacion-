@@ -86,7 +86,7 @@ img {
     height: 100%;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.8s;
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
 }
 
 .center-view { z-index: 1; }
@@ -98,7 +98,7 @@ img {
    ========================================= */
 .closure-view { 
     display: flex; 
-    z-index: 0; 
+    z-index: 20; /* Capa por encima del contenido interno pero por debajo del botón de reseteo */
 }
 
 .curtain {
@@ -116,23 +116,28 @@ img {
    CONTROL DE ESTADOS
    ========================================= */
 
-/* PASO 2: Se ejecuta el efecto libro manteniendo el fondo visible */
+/* PASO 1: Bloqueo de seguridad para que centro_2 no se filtre de fondo */
+.paso-1 .center-view {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+/* PASO 2: Se ejecuta el efecto libro */
 .paso-2 .left-door { transform: translateX(-100%) rotateY(-120deg); opacity: 0; }
 .paso-2 .right-door { transform: translateX(100%) rotateY(120deg); opacity: 0; }
-.paso-2 .center-view { opacity: 1; visibility: visible; }
-.paso-2 .door-layer { pointer-events: none; } /* Volvemos las puertas "transparentes" a los clics */
+.paso-2 .center-view { opacity: 1 !important; visibility: visible !important; }
+.paso-2 .door-layer { pointer-events: none; } 
 
-/* PASO 3: Pasamos al mapa y al QR de forma fluida */
+/* PASO 3: Tránsito al mapa y QR */
 .paso-3 .center-view { opacity: 0; visibility: hidden; }
 .paso-3 .final-view { opacity: 1; visibility: visible; }
-.paso-3 .door-layer { display: none !important; } /* Ahora sí las ocultamos del todo */
+.paso-3 .door-layer { display: none !important; } 
 
-/* PASO 4: Cierre de cortinas lento */
+/* PASO 4: Cierre de cortinas */
 .paso-4 .final-view { opacity: 0; visibility: hidden; }
 .paso-4 .closure-view { 
     opacity: 1; 
     visibility: visible; 
-    z-index: 20; 
 }
 .paso-4 .left-curtain { transform: translateX(0); }
 .paso-4 .right-curtain { transform: translateX(0); }
@@ -155,7 +160,7 @@ img {
 
 
 /* =========================================
-   BOTÓN PRINCIPAL INFERIOR
+   BOTÓN PRINCIPAL INFERIOR (VERDE)
    ========================================= */
 .main-button {
     margin-top: 25px;
@@ -174,7 +179,7 @@ img {
 }
 .main-button:hover { background-color: #486143; }
 
-/* Ocultar en el Paso 4 */
+/* Ocultar botón verde en las cortinas del Paso 4 */
 .paso-4 .main-button {
     opacity: 0;
     visibility: hidden;
@@ -182,10 +187,46 @@ img {
     pointer-events: none;
 }
 
-/* NUEVO PARCHE: Forzar que se vuelva a ver al regresar al Paso 2 */
+/* Forzar que reaparezca correctamente al volver al Paso 2 */
 .paso-2 .main-button {
     opacity: 1 !important;
     visibility: visible !important;
     transform: translateY(0) !important;
     pointer-events: auto !important;
+}
+
+
+/* =========================================
+   BOTÓN SECUNDARIO (VOLVER AL CONTENIDO)
+   ========================================= */
+.secondary-button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: transparent;
+    color: #5e7c58;
+    border: 1px solid #5e7c58;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    /* Un Z-INDEX altísimo (300) para que se posicione sobre cualquier cortina o capa */
+    z-index: 300 !important; 
+    transition: all 0.4s ease;
+    
+    /* Oculto por defecto en pasos 1, 2 y 3 */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.secondary-button:hover {
+    background-color: rgba(94, 124, 88, 0.1);
+}
+
+/* Se activa únicamente en el Paso 4 */
+.paso-4 .secondary-button {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
 }
