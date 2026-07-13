@@ -37,24 +37,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // REGRESAR A CENTRO_2 AL INSTANTE
+    // REGRESAR AL PASO 2 NATURALMENTE
     if (resetBtn) {
         resetBtn.addEventListener("click", (e) => {
             e.preventDefault();
             
-            // Activamos una clase temporal para saltarnos la animación de las portadas/cortinas
-            wrapper.classList.add("sin-animacion");
-            
-            // Cambiamos al paso 2 directo
-            wrapper.className = "wrapper paso-2 sin-animacion"; 
+            // Cambiamos el estado al paso 2 directamente de forma limpia
+            wrapper.className = "wrapper paso-2"; 
             actionBtn.textContent = "Ver detalles e información";
             
             if (doors) doors.style.display = "none"; 
-
-            // Quitamos la clase temporal un milisegundo después para que el resto de la web funcione normal
-            setTimeout(() => {
-                wrapper.classList.remove("sin-animacion");
-            }, 50);
         });
     }
 });
