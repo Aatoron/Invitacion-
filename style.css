@@ -1,0 +1,229 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #f6f5f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.invitation-container {
+    width: 90vw;
+    max-width: 380px;
+    height: 72vh;
+    max-height: 560px;
+    position: relative;
+    background-color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    overflow: hidden;
+    border-radius: 4px;
+    perspective: 1400px;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    display: block;
+}
+
+/* =========================================
+   PASO 1: APERTURA DE LIBRO (PORTADA)
+   ========================================= */
+.door-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    transform-style: preserve-3d;
+    transition: opacity 1.5s ease, visibility 1.5s;
+}
+
+.door {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 2.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 2s ease;
+    backface-visibility: hidden;
+}
+
+.left-door { left: 0; transform-origin: left center; }
+.right-door { right: 0; transform-origin: right center; }
+
+.left-door img { width: 200%; height: 100%; position: absolute; left: 0; }
+.right-door img { width: 200%; height: 100%; position: absolute; right: 0; }
+
+
+/* =========================================
+   CAPAS INTERNAS (PASOS 2 Y 3)
+   ========================================= */
+.content-view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.2s;
+}
+
+.center-view { z-index: 1; }
+.final-view { display: flex; z-index: 5; }
+
+
+/* =========================================
+   PASO 4: CAPA DE CORTINAS
+   ========================================= */
+.closure-view { 
+    display: flex; 
+    z-index: 20; 
+}
+
+.curtain {
+    width: 50%;
+    height: 100%;
+    position: relative;
+    transition: transform 3.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.left-curtain { transform: translateX(-101%); }
+.right-curtain { transform: translateX(101%); }
+
+
+/* =========================================
+   CONTROL DE ESTADOS
+   ========================================= */
+
+.paso-1 .center-view {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+.paso-2 .left-door { transform: translateX(-100%) rotateY(-120deg); opacity: 0; }
+.paso-2 .right-door { transform: translateX(100%) rotateY(120deg); opacity: 0; }
+.paso-2 .center-view { opacity: 1 !important; visibility: visible !important; }
+.paso-2 .door-layer { pointer-events: none; } 
+
+.paso-3 .center-view { opacity: 0; visibility: hidden; }
+.paso-3 .final-view { opacity: 1; visibility: visible; }
+.paso-3 .door-layer { display: none !important; } 
+
+.paso-4 .final-view { opacity: 0; visibility: hidden; }
+.paso-4 .closure-view { 
+    opacity: 1; 
+    visibility: visible; 
+}
+.paso-4 .left-curtain { transform: translateX(0); }
+.paso-4 .right-curtain { transform: translateX(0); }
+.paso-4 .door-layer { display: none !important; }
+
+
+/* =========================================
+   BOTONES INVISIBLES (PASO 3)
+   ========================================= */
+.invisible-btn {
+    position: absolute;
+    display: block;
+    background: rgba(255, 255, 255, 0);
+    cursor: pointer;
+    z-index: 100;
+}
+.btn-qr { bottom: 3%; left: 15%; width: 70%; height: 23%; }
+.btn-iglesia { top: 13%; left: 5%; width: 90%; height: 25%; }
+.btn-convite { top: 42%; left: 5%; width: 90%; height: 25%; }
+
+
+/* =========================================
+   BOTÓN PRINCIPAL INFERIOR (VERDE)
+   ========================================= */
+.main-button {
+    margin-top: 25px;
+    padding: 14px 30px;
+    background-color: #5e7c58;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    z-index: 150;
+    transition: all 0.6s ease;
+}
+.main-button:hover { background-color: #486143; }
+
+.paso-4 .main-button {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+.paso-2 .main-button {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+    pointer-events: auto !important;
+}
+
+
+/* =========================================
+   BOTÓN SECUNDARIO (VOLVER AL CONTENIDO)
+   ========================================= */
+.secondary-button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: transparent;
+    color: #5e7c58;
+    border: 1px solid #5e7c58;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    z-index: 300 !important; 
+    transition: all 0.4s ease;
+    
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.secondary-button:hover {
+    background-color: rgba(94, 124, 88, 0.1);
+}
+
+.paso-4 .secondary-button {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+}
+
+/* TRUCO EXTRA: Elimina las transiciones al regresar para que aparezca centro_2 de golpe */
+.sin-animacion .curtain,
+.sin-animacion .content-view {
+    transition: none !important;
+}
