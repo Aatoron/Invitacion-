@@ -90,7 +90,8 @@ img {
 }
 
 .center-view { z-index: 1; }
-.final-view { display: flex; z-index: 5; }
+.final-view { display: flex; z-index: 5; width: 100%; height: 100%; }
+.final-half { width: 50%; height: 100%; position: relative; }
 
 
 /* =========================================
@@ -121,9 +122,14 @@ img {
     visibility: hidden !important;
 }
 
+/* PASO 2: Se activa el centro de forma fluida para que los móviles respondan pintando la imagen */
 .paso-2 .left-door { transform: translateX(-100%) rotateY(-120deg); opacity: 0; }
 .paso-2 .right-door { transform: translateX(100%) rotateY(120deg); opacity: 0; }
-.paso-2 .center-view { opacity: 1 !important; visibility: visible !important; }
+.paso-2 .center-view { 
+    opacity: 1 !important; 
+    visibility: visible !important;
+    transition: opacity 0.4s ease-in-out !important; 
+}
 .paso-2 .door-layer { pointer-events: none; } 
 
 .paso-3 .center-view { opacity: 0; visibility: hidden; }
@@ -191,7 +197,7 @@ img {
 
 
 /* =========================================
-   BOTÓN SECUNDARIO (VOLVER AL CONTENIDO)
+   BOTÓN SECUNDARIO (VOLVER A EMPEZAR)
    ========================================= */
 .secondary-button {
     margin-top: 15px;
@@ -222,17 +228,11 @@ img {
     transform: translateY(0) !important;
 }
 
+/* Ocultamiento absoluto en el resto de pasos para móviles */
 .paso-2 .secondary-button,
 .paso-1 .secondary-button,
 .paso-3 .secondary-button {
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
-}
-
-/* REPARACIÓN PARA MÓVILES: En lugar de desactivar la animación por completo, 
-   le damos un tiempo ultracorto (0.1s) para obligar al móvil a renderizar centro_2 */
-.sin-animacion .curtain,
-.sin-animacion .content-view {
-    transition: transform 0.1s ease, opacity 0.1s ease, visibility 0.1s !important;
 }
